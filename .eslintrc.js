@@ -22,5 +22,9 @@ module.exports = {
     'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.js'] }],
     'import/prefer-default-export': 'off',
     'react/prefer-stateless-function': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'no-template-curly-in-string': 'off',
+    'no-console': 'off',
+    'no-param-reassign': 'off',
   },
 };
