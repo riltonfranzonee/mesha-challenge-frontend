@@ -100,7 +100,6 @@ function Register() {
           <FormInput
             size="large"
             placeholder="Telefone"
-            onChange={e => console.log(e.target.value)}
             prefix={<PhoneOutlined style={iconSpace} />}
           />
         </FormItem>

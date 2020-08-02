@@ -3,4 +3,14 @@ const CREATE = {
   SUCCESS: '@service/CREATE_SUCCESS',
 };
 
-export { CREATE };
+const ADD_PROBLEM = {
+  REQUEST: '@service/ADD_PROBLEM_REQUEST',
+  SUCCESS: '@service/ADD_PROBLEM_SUCCESS',
+};
+
+const ADD_PROCEDURE = {
+  REQUEST: '@service/ADD_PROCEDURE_REQUEST',
+  SUCCESS: '@service/ADD_PROCEDURE_SUCCESS',
+};
+
+export { CREATE, ADD_PROBLEM, ADD_PROCEDURE };
