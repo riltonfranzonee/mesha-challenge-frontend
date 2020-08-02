@@ -6,6 +6,7 @@ import {
   PlusOutlined,
   PlusCircleOutlined,
   ClockCircleOutlined,
+  CloseOutlined,
   DollarCircleOutlined,
 } from '@ant-design/icons';
 
@@ -18,25 +19,45 @@ import {
   PatientInfo,
   FinishButton,
   CardInfo,
+  CardTag,
   PageContent,
   ProblemInput,
   ProblemsList,
   ProceduresTop,
   ProcedureItem,
+  RemoveButton,
   PriceDisplay,
   DurationDisplay,
 } from './styles';
 
 import Modal from '../../components/Modal';
 
-import { addProblem } from '../../store/modules/service/actions';
+import {
+  addProblem,
+  removeProcedure,
+} from '../../store/modules/service/actions';
+
+import formatPrice from '../../utils/formatPrice';
 
 function Service() {
   const [problemInput, setProblemInput] = useState('');
-
   const [modal, setModal] = useState(false);
 
   const { patient, problems, procedures } = useSelector(state => state.service);
+
+  const totalPrice = procedures.length
+    ? formatPrice(
+        procedures
+          .map(p => parseFloat(p.price))
+          .reduce((sumTotal, item) => sumTotal + item)
+      )
+    : 'R$ 00,00';
+
+  const totalHours = procedures.length
+    ? procedures
+        .map(p => +p.duration)
+        .reduce((sumTotal, item) => sumTotal + item)
+    : '0';
 
   const dispatch = useDispatch();
 
@@ -51,25 +72,31 @@ function Service() {
     <Container>
       <Header className="header" />
       <Content>
-        <Row gutter={25}>
-          <Col span={5}>
+        <Row gutter={20}>
+          <Col span={6}>
             <UserCard>
               <PatientInfo>
                 <PatientAvatar src={patient.avatar_url} size={100} />
                 <span>{patient.name}</span>
               </PatientInfo>
               <CardInfo>
-                <strong>Valor total</strong>
-                <span>R$110</span>
+                <div>
+                  <DollarCircleOutlined />
+                  <CardTag>Preço</CardTag>
+                </div>
+                <strong>{totalPrice}</strong>
               </CardInfo>
               <CardInfo>
-                <strong>Duração total</strong>
-                <span>200h</span>
+                <div>
+                  <ClockCircleOutlined />
+                  <CardTag>Duração</CardTag>
+                </div>
+                <strong>{totalHours}h</strong>
               </CardInfo>
-              <FinishButton>Finalizar atendimento</FinishButton>
+              <FinishButton size="large">Finalizar atendimento</FinishButton>
             </UserCard>
           </Col>
-          <Col span={19}>
+          <Col span={18}>
             <PageContent>
               <Row>
                 <Col span={12} justify="center">
@@ -86,7 +113,7 @@ function Service() {
                       value={problemInput}
                     />
                     <button type="button" onClick={handleNewProblem}>
-                      <PlusOutlined color="#fff" />
+                      <PlusOutlined />
                     </button>
                   </ProblemInput>
                   <ProblemsList>
@@ -103,19 +130,30 @@ function Service() {
                     </button>
                   </ProceduresTop>
                   <div className="scrollable-container">
-                    {procedures.map(procedure => (
-                      <ProcedureItem key={procedure.id}>
-                        <strong>{procedure.name}</strong>
-                        <DurationDisplay>
-                          <ClockCircleOutlined />
-                          <span>{procedure.duration}h</span>
-                        </DurationDisplay>
-                        <PriceDisplay>
-                          <DollarCircleOutlined />
-                          <span>R${procedure.price}</span>
-                        </PriceDisplay>
-                      </ProcedureItem>
-                    ))}
+                    {procedures.length ? (
+                      procedures.map(procedure => (
+                        <ProcedureItem key={procedure.id}>
+                          <strong>{procedure.name}</strong>
+                          <DurationDisplay>
+                            <ClockCircleOutlined />
+                            <span>{procedure.duration}h</span>
+                          </DurationDisplay>
+                          <PriceDisplay>
+                            <DollarCircleOutlined />
+                            <span>R${procedure.price}</span>
+                            <RemoveButton
+                              onClick={() => {
+                                dispatch(removeProcedure(procedure.id));
+                              }}
+                            >
+                              <CloseOutlined />
+                            </RemoveButton>
+                          </PriceDisplay>
+                        </ProcedureItem>
+                      ))
+                    ) : (
+                      <div>Nenhum tratamento adicionado ainda</div>
+                    )}
                   </div>
                   <Modal open={modal} handleClose={() => setModal(false)} />
                 </Col>

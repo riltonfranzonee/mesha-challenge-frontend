@@ -1,5 +1,10 @@
 import produce from 'immer';
-import { CREATE, ADD_PROBLEM, ADD_PROCEDURE } from './constants';
+import {
+  CREATE,
+  ADD_PROBLEM,
+  ADD_PROCEDURE,
+  REMOVE_PROCEDURE,
+} from './constants';
 
 const INITIAL_STATE = {
   loading: false,
@@ -38,7 +43,16 @@ export default function service(state = INITIAL_STATE, action) {
       }
       case ADD_PROCEDURE.SUCCESS: {
         draft.loading = false;
-        draft.procedures.push(action.payload);
+        const index = draft.procedures.findIndex(
+          p => p.id === action.payload.id
+        );
+        if (index === -1) draft.procedures.push(action.payload);
+        break;
+      }
+      case REMOVE_PROCEDURE.SUCCESS: {
+        draft.loading = false;
+        const index = draft.procedures.findIndex(p => p.id === action.payload);
+        if (index !== -1) draft.procedures.splice(index, 1);
         break;
       }
       default:

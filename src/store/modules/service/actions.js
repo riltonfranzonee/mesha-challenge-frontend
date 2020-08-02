@@ -1,4 +1,9 @@
-import { CREATE, ADD_PROBLEM, ADD_PROCEDURE } from './constants';
+import {
+  CREATE,
+  ADD_PROBLEM,
+  ADD_PROCEDURE,
+  REMOVE_PROCEDURE,
+} from './constants';
 
 export function createService(patientData) {
   return {
@@ -31,10 +36,14 @@ export function addProblemSuccess(problem) {
   };
 }
 
-export function addProcedure(name) {
+export function addProcedure({ name, duration, price }) {
   return {
     type: ADD_PROCEDURE.REQUEST,
-    payload: name,
+    payload: {
+      name,
+      duration,
+      price,
+    },
   };
 }
 
@@ -42,5 +51,12 @@ export function addProcedureSuccess(procedure) {
   return {
     type: ADD_PROCEDURE.SUCCESS,
     payload: procedure,
+  };
+}
+
+export function removeProcedure(id) {
+  return {
+    type: REMOVE_PROCEDURE.SUCCESS,
+    payload: id,
   };
 }

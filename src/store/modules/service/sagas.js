@@ -37,7 +37,13 @@ function* addProblem({ payload }) {
 
 function* addProcedure({ payload }) {
   try {
-    const { data } = yield call(api.post, 'procedures', payload);
+    const { name, duration, price } = payload;
+
+    const { data } = yield call(api.post, 'procedures', {
+      name: name.toLowerCase(),
+      duration,
+      price,
+    });
 
     yield put(addProcedureSuccess(data));
   } catch (err) {
