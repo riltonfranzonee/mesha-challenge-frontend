@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col } from 'antd';
 
-import { PlusOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  PlusCircleOutlined,
+  ClockCircleOutlined,
+  DollarCircleOutlined,
+} from '@ant-design/icons';
 
 import {
   Container,
@@ -12,18 +17,26 @@ import {
   PatientAvatar,
   PatientInfo,
   FinishButton,
-  PriceInfo,
+  CardInfo,
   PageContent,
   ProblemInput,
   ProblemsList,
+  ProceduresTop,
+  ProcedureItem,
+  PriceDisplay,
+  DurationDisplay,
 } from './styles';
+
+import Modal from '../../components/Modal';
 
 import { addProblem } from '../../store/modules/service/actions';
 
 function Service() {
   const [problemInput, setProblemInput] = useState('');
 
-  const { patient, problems } = useSelector(state => state.service);
+  const [modal, setModal] = useState(false);
+
+  const { patient, problems, procedures } = useSelector(state => state.service);
 
   const dispatch = useDispatch();
 
@@ -45,10 +58,14 @@ function Service() {
                 <PatientAvatar src={patient.avatar_url} size={100} />
                 <span>{patient.name}</span>
               </PatientInfo>
-              <PriceInfo>
+              <CardInfo>
                 <strong>Valor total</strong>
                 <span>R$110</span>
-              </PriceInfo>
+              </CardInfo>
+              <CardInfo>
+                <strong>Duração total</strong>
+                <span>200h</span>
+              </CardInfo>
               <FinishButton>Finalizar atendimento</FinishButton>
             </UserCard>
           </Col>
@@ -74,11 +91,34 @@ function Service() {
                   </ProblemInput>
                   <ProblemsList>
                     {problems.map(problem => (
-                      <li>{problem.name}</li>
+                      <li key={`${problem.id}`}>{problem.name}</li>
                     ))}
                   </ProblemsList>
                 </Col>
-                <Col span={12}>Tratamentos</Col>
+                <Col span={12}>
+                  <ProceduresTop>
+                    <h1>Tratamentos</h1>
+                    <button type="button" onClick={() => setModal(true)}>
+                      <PlusCircleOutlined />
+                    </button>
+                  </ProceduresTop>
+                  <div className="scrollable-container">
+                    {procedures.map(procedure => (
+                      <ProcedureItem key={procedure.id}>
+                        <strong>{procedure.name}</strong>
+                        <DurationDisplay>
+                          <ClockCircleOutlined />
+                          <span>{procedure.duration}h</span>
+                        </DurationDisplay>
+                        <PriceDisplay>
+                          <DollarCircleOutlined />
+                          <span>R${procedure.price}</span>
+                        </PriceDisplay>
+                      </ProcedureItem>
+                    ))}
+                  </div>
+                  <Modal open={modal} handleClose={() => setModal(false)} />
+                </Col>
               </Row>
             </PageContent>
           </Col>

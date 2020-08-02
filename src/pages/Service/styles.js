@@ -49,7 +49,7 @@ export const FinishButton = styled(Button)`
   color: #fff !important;
 `;
 
-export const PriceInfo = styled.div`
+export const CardInfo = styled.div`
   display: flex;
   width: 65%;
   justify-content: space-between;
@@ -123,4 +123,58 @@ export const ProblemsList = styled.ul`
       text-transform: uppercase;
     }
   }
+`;
+
+export const ProceduresTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  width: 75%;
+
+  button {
+    border: none;
+    border-radius: 100px;
+    background-color: transparent;
+    font-size: 30px;
+    color: #000;
+  }
+
+  h1 {
+    margin-top: 5px;
+  }
+`;
+
+export const ProcedureItem = styled.div`
+  background-color: #fff;
+  width: 80%;
+  height: 70px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin: 15px 0;
+
+  strong {
+    font-size: 18px;
+    color: #000;
+    width: 50%;
+  }
+
+  div {
+    font-size: 16px;
+
+    span {
+      margin-left: 5px;
+    }
+  }
+`;
+
+export const PriceDisplay = styled.div`
+  width: 30%;
+`;
+
+export const DurationDisplay = styled.div`
+  width: 20%;
 `;
