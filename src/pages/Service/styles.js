@@ -25,7 +25,7 @@ export const UserCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 400px;
+  height: 430px;
 `;
 
 export const PatientAvatar = styled(Avatar)``;

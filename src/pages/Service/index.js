@@ -33,6 +33,7 @@ import {
 
 import Modal from '../../components/Modal';
 import ReportDocument from '../../components/Report';
+import Timer from '../../components/Timer';
 
 import {
   addProblem,
@@ -94,6 +95,8 @@ function Service() {
                 <PatientAvatar src={patient.avatar_url} size={100} />
                 <span>{patient.name}</span>
               </PatientInfo>
+              <Timer />
+
               <CardInfo>
                 <div>
                   <DollarCircleOutlined />
@@ -108,7 +111,7 @@ function Service() {
                 </div>
                 <strong>{totalHours}h</strong>
               </CardInfo>
-              <FinishButton onClick={handleFinish}>
+              <FinishButton onClick={handleFinish} size="large">
                 Finalizar atendimento
               </FinishButton>
               <PDFDownloadLink
