@@ -1,69 +1,30 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col } from 'antd';
-import { PDFDownloadLink } from '@react-pdf/renderer';
 
-import {
-  PlusOutlined,
-  PlusCircleOutlined,
-  ClockCircleOutlined,
-  CloseOutlined,
-  DollarCircleOutlined,
-} from '@ant-design/icons';
+import { PlusOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 import {
   Container,
   Header,
   Content,
-  UserCard,
-  PatientAvatar,
-  PatientInfo,
-  FinishButton,
-  CardInfo,
-  CardTag,
   PageContent,
   ProblemInput,
   ProblemsList,
   ProceduresTop,
-  ProcedureItem,
-  RemoveButton,
-  PriceDisplay,
-  DurationDisplay,
 } from './styles';
 
 import Modal from '../../components/Modal';
-import ReportDocument from '../../components/Report';
-import Timer from '../../components/Timer';
+import UserCard from '../../components/UserCard';
+import ProcedureItem from '../../components/ProcedureItem';
 
-import {
-  addProblem,
-  removeProcedure,
-  finishService,
-} from '../../store/modules/service/actions';
-
-import formatPrice from '../../utils/formatPrice';
+import { addProblem } from '../../store/modules/service/actions';
 
 function Service() {
   const [problemInput, setProblemInput] = useState('');
   const [modal, setModal] = useState(false);
 
-  const { patient, problems, procedures, service } = useSelector(
-    state => state.service
-  );
-
-  const totalPrice = procedures.length
-    ? formatPrice(
-        procedures
-          .map(p => parseFloat(p.price))
-          .reduce((sumTotal, item) => sumTotal + item)
-      )
-    : 'R$ 00,00';
-
-  const totalHours = procedures.length
-    ? procedures
-        .map(p => +p.duration)
-        .reduce((sumTotal, item) => sumTotal + item)
-    : '0';
+  const { problems, procedures } = useSelector(state => state.service);
 
   const dispatch = useDispatch();
 
@@ -74,61 +35,13 @@ function Service() {
     }
   };
 
-  const handleFinish = () => {
-    dispatch(
-      finishService({
-        problems_id: problems.length ? problems.map(p => p.id) : [],
-        procedures_id: procedures.length ? procedures.map(p => p.id) : [],
-        service_id: service.id,
-      })
-    );
-  };
-
   return (
     <Container>
       <Header className="header" />
       <Content>
         <Row gutter={20}>
           <Col span={6}>
-            <UserCard>
-              <PatientInfo>
-                <PatientAvatar src={patient.avatar_url} size={100} />
-                <span>{patient.name}</span>
-              </PatientInfo>
-              <Timer />
-
-              <CardInfo>
-                <div>
-                  <DollarCircleOutlined />
-                  <CardTag>Custo</CardTag>
-                </div>
-                <strong>{totalPrice}</strong>
-              </CardInfo>
-              <CardInfo>
-                <div>
-                  <ClockCircleOutlined />
-                  <CardTag>Duração</CardTag>
-                </div>
-                <strong>{totalHours}h</strong>
-              </CardInfo>
-              <FinishButton onClick={handleFinish} size="large">
-                Finalizar atendimento
-              </FinishButton>
-              <PDFDownloadLink
-                id="pdf-button"
-                document={
-                  <ReportDocument
-                    patient={patient}
-                    procedures={procedures}
-                    problems={problems}
-                  />
-                }
-              >
-                {({ loading }) =>
-                  loading ? 'Gerando o relatório...' : 'Gerar relatório'
-                }
-              </PDFDownloadLink>
-            </UserCard>
+            <UserCard />
           </Col>
           <Col span={18}>
             <PageContent>
@@ -166,24 +79,10 @@ function Service() {
                   <div className="scrollable-container">
                     {procedures.length ? (
                       procedures.map(procedure => (
-                        <ProcedureItem key={procedure.id}>
-                          <strong>{procedure.name}</strong>
-                          <DurationDisplay>
-                            <ClockCircleOutlined />
-                            <span>{procedure.duration}h</span>
-                          </DurationDisplay>
-                          <PriceDisplay>
-                            <DollarCircleOutlined />
-                            <span>R${procedure.price}</span>
-                            <RemoveButton
-                              onClick={() => {
-                                dispatch(removeProcedure(procedure.id));
-                              }}
-                            >
-                              <CloseOutlined />
-                            </RemoveButton>
-                          </PriceDisplay>
-                        </ProcedureItem>
+                        <ProcedureItem
+                          key={procedure.id}
+                          procedure={procedure}
+                        />
                       ))
                     ) : (
                       <div>Nenhum tratamento adicionado ainda</div>

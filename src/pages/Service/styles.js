@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Layout, Avatar, Button } from 'antd';
+import { Layout } from 'antd';
 
 export const Container = styled.div`
   width: 100%;
@@ -14,56 +14,6 @@ export const Header = styled(Layout.Header)`
 
 export const Content = styled(Layout.Content)`
   padding: 30px;
-`;
-
-export const UserCard = styled.div`
-  background-color: #fff;
-  border-radius: 30px;
-  padding: 20px 10px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 430px;
-`;
-
-export const PatientAvatar = styled(Avatar)``;
-
-export const PatientInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  span {
-    font-weight: bold;
-    font-size: 25px;
-    color: #000;
-    margin-top: 10px;
-  }
-`;
-
-export const FinishButton = styled(Button)`
-  margin-top: 20px;
-  background-color: #08bf39 !important;
-  color: #fff !important;
-  font-weight: bold !important;
-`;
-
-export const CardInfo = styled.div`
-  display: flex;
-  width: 65%;
-  justify-content: space-between;
-  align-items: center;
-
-  strong {
-    color: #000;
-  }
-`;
-
-export const CardTag = styled.span`
-  margin-left: 5px;
-  font-size: 16px;
 `;
 
 export const ProblemInput = styled.form`
@@ -148,60 +98,5 @@ export const ProceduresTop = styled.div`
 
   h1 {
     margin-top: 5px;
-  }
-`;
-
-export const ProcedureItem = styled.div`
-  background-color: #fff;
-  width: 80%;
-  height: 70px;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  margin: 15px 0;
-  box-shadow: 2px 4px 7px -2px rgba(0, 0, 0, 0.78);
-
-  strong {
-    font-size: 18px;
-    color: #000;
-    width: 50%;
-
-    &::first-letter {
-      text-transform: uppercase;
-    }
-  }
-
-  div {
-    font-size: 16px;
-
-    span {
-      margin-left: 5px;
-    }
-  }
-`;
-
-export const PriceDisplay = styled.div`
-  width: 30%;
-  position: relative;
-`;
-
-export const DurationDisplay = styled.div`
-  width: 20%;
-`;
-
-export const RemoveButton = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-top: -19px;
-  margin-right: -12px;
-  background-color: transparent;
-  border: none;
-  font-size: 13px;
-
-  &:hover {
-    color: red;
   }
 `;
