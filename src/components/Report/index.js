@@ -55,23 +55,25 @@ export default function Report({ patient, procedures }) {
             </View>
           </View>
         </View>
-        <View style={styles.section}>
-          <View style={styles.sectionTitle}>
-            <Text>Tratamentos</Text>
-          </View>
-          {procedures.map(procedure => (
-            <View style={styles.procedureItem}>
-              <Text>- {procedure.name}</Text>
+        {procedures.length ? (
+          <View style={styles.section}>
+            <View style={styles.sectionTitle}>
+              <Text>Tratamentos</Text>
             </View>
-          ))}
-        </View>
+            {procedures.map(procedure => (
+              <View style={styles.procedureItem}>
+                <Text>- {procedure.name}</Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
         <View styles={styles.patientSection}>
           <View style={styles.sectionRow}>
-            <Text style={styles.endLabel}>Custo total:</Text>
+            <Text style={styles.endLabel}>Total a pagar:</Text>
             <Text style={styles.endValue}>{totalPrice}</Text>
           </View>
           <View style={styles.sectionRow}>
-            <Text style={styles.endLabel}>Tempo total:</Text>
+            <Text style={styles.endLabel}>Tempo total estimado:</Text>
             <Text style={styles.endValue}>{totalHours}h</Text>
           </View>
         </View>

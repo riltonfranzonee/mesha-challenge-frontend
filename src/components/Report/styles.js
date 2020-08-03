@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
   patientSection: {
     margin: 10,
-    padding: 10,
+    padding: '10 10 0 10',
     width: '100%',
   },
 
@@ -68,17 +68,17 @@ const styles = StyleSheet.create({
 
   procedureItem: {
     marginBottom: 10,
-    fontSize: 14,
+    fontSize: 13,
     textTransform: 'capitalize',
   },
 
   endLabel: {
-    fontSize: 14,
+    fontSize: 13,
     margin: '0 10 0 15',
   },
 
   endValue: {
-    fontSize: 14,
+    fontSize: 13,
   },
 });
 
