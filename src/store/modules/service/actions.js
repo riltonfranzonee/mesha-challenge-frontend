@@ -3,6 +3,7 @@ import {
   ADD_PROBLEM,
   ADD_PROCEDURE,
   REMOVE_PROCEDURE,
+  FINISH,
 } from './constants';
 
 export function createService(patientData) {
@@ -58,5 +59,22 @@ export function removeProcedure(id) {
   return {
     type: REMOVE_PROCEDURE.SUCCESS,
     payload: id,
+  };
+}
+
+export function finishService({ problems_id, procedures_id, service_id }) {
+  return {
+    type: FINISH.REQUEST,
+    payload: {
+      service_id,
+      procedures_id,
+      problems_id,
+    },
+  };
+}
+
+export function finishServiceSuccess() {
+  return {
+    type: FINISH.SUCCESS,
   };
 }

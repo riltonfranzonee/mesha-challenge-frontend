@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col } from 'antd';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 import {
   PlusOutlined,
@@ -31,10 +32,12 @@ import {
 } from './styles';
 
 import Modal from '../../components/Modal';
+import ReportDocument from '../../components/Report';
 
 import {
   addProblem,
   removeProcedure,
+  finishService,
 } from '../../store/modules/service/actions';
 
 import formatPrice from '../../utils/formatPrice';
@@ -43,7 +46,9 @@ function Service() {
   const [problemInput, setProblemInput] = useState('');
   const [modal, setModal] = useState(false);
 
-  const { patient, problems, procedures } = useSelector(state => state.service);
+  const { patient, problems, procedures, service } = useSelector(
+    state => state.service
+  );
 
   const totalPrice = procedures.length
     ? formatPrice(
@@ -68,6 +73,16 @@ function Service() {
     }
   };
 
+  const handleFinish = () => {
+    dispatch(
+      finishService({
+        problems_id: problems.length ? problems.map(p => p.id) : [],
+        procedures_id: procedures.length ? procedures.map(p => p.id) : [],
+        service_id: service.id,
+      })
+    );
+  };
+
   return (
     <Container>
       <Header className="header" />
@@ -82,7 +97,7 @@ function Service() {
               <CardInfo>
                 <div>
                   <DollarCircleOutlined />
-                  <CardTag>Preço</CardTag>
+                  <CardTag>Custo</CardTag>
                 </div>
                 <strong>{totalPrice}</strong>
               </CardInfo>
@@ -93,7 +108,23 @@ function Service() {
                 </div>
                 <strong>{totalHours}h</strong>
               </CardInfo>
-              <FinishButton size="large">Finalizar atendimento</FinishButton>
+              <FinishButton onClick={handleFinish}>
+                Finalizar atendimento
+              </FinishButton>
+              <PDFDownloadLink
+                id="pdf-button"
+                document={
+                  <ReportDocument
+                    patient={patient}
+                    procedures={procedures}
+                    problems={problems}
+                  />
+                }
+              >
+                {({ loading }) =>
+                  loading ? 'Gerando o relatório...' : 'Gerar relatório'
+                }
+              </PDFDownloadLink>
             </UserCard>
           </Col>
           <Col span={18}>

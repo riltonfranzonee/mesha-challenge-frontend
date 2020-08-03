@@ -26,5 +26,8 @@ module.exports = {
     'no-template-curly-in-string': 'off',
     'no-console': 'off',
     'no-param-reassign': 'off',
+    'react/forbid-prop-types': 'off',
+    'consistent-return': 'off',
+    camelcase: 'off',
   },
 };

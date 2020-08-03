@@ -50,6 +50,7 @@ export default function Modal({ open, handleClose }) {
                 placeholder="Duração (h)"
                 size="large"
                 type="number"
+                min={0}
               />
             </FormItem>
             <FormItem noStyle name="price" rules={required}>
@@ -57,6 +58,7 @@ export default function Modal({ open, handleClose }) {
                 placeholder="Preço (R$)"
                 size="large"
                 type="number"
+                min={1}
               />
             </FormItem>
           </InlineWrapper>

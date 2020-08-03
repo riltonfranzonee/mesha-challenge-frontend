@@ -1,13 +1,14 @@
 import { all, takeLatest, put, call } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
-import { CREATE, ADD_PROBLEM, ADD_PROCEDURE } from './constants';
+import { CREATE, FINISH, ADD_PROBLEM, ADD_PROCEDURE } from './constants';
 
 import api from '../../../services/api';
 import history from '../../../services/history';
 
 import {
   createServiceSuccess,
+  finishServiceSuccess,
   addProblemSuccess,
   addProcedureSuccess,
 } from './actions';
@@ -51,8 +52,21 @@ function* addProcedure({ payload }) {
   }
 }
 
+function* finishService({ payload }) {
+  try {
+    const { service_id, problems_id, procedures_id } = payload;
+
+    yield call(api.put, 'services', { service_id, problems_id, procedures_id });
+    history.push('/');
+    yield put(finishServiceSuccess());
+  } catch (err) {
+    toast.error('Ocorreu um erro ao finalizar o atendimento, tente novamente');
+  }
+}
+
 export default all([
   takeLatest(CREATE.REQUEST, createService),
+  takeLatest(FINISH.REQUEST, finishService),
   takeLatest(ADD_PROBLEM.REQUEST, addProblem),
   takeLatest(ADD_PROCEDURE.REQUEST, addProcedure),
 ]);

@@ -4,6 +4,7 @@ import {
   ADD_PROBLEM,
   ADD_PROCEDURE,
   REMOVE_PROCEDURE,
+  FINISH,
 } from './constants';
 
 const INITIAL_STATE = {
@@ -54,6 +55,9 @@ export default function service(state = INITIAL_STATE, action) {
         const index = draft.procedures.findIndex(p => p.id === action.payload);
         if (index !== -1) draft.procedures.splice(index, 1);
         break;
+      }
+      case FINISH.SUCCESS: {
+        return INITIAL_STATE;
       }
       default:
     }
